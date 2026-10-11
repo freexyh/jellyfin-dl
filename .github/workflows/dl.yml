@@ -1,0 +1,13 @@
+name: dl
+on:
+  workflow_dispatch:
+jobs:
+  dl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download
+        run: curl -fL --retry 5 -o jellyfin.zip "https://repo.jellyfin.org/files/server/windows/stable/v12.2/amd64/jellyfin_12.2-amd64.zip"
+      - name: upload-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create v12.2 jellyfin.zip --title "jellyfin 12.2" --notes "auto transfer" --latest
